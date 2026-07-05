@@ -18,12 +18,10 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 >
 	<section class="hero">
 		<div class="hero-panel">
-			<p class="eyebrow">Standalone site</p>
 			<h1>Field notes from a useful machine.</h1>
 			<p class="lede">
-				This site exists to document features after they have actually settled. Not
-				the launch-day fantasy version. The real version. What changed, why it was
-				built, where it failed first, and what the workflow looks like now.
+				Writing about the systems, tools, and features that have survived contact
+				with reality.
 			</p>
 			<div class="hero-actions">
 				{featuredPost && (
@@ -34,21 +32,11 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 				<a class="secondary-link" href="#posts">Browse all posts</a>
 			</div>
 		</div>
-		<div class="hero-aside">
-			<p class="aside-kicker">Publishing shape</p>
-			<ul class="aside-list">
-				<li>Astro static site</li>
-				<li>Netlify-ready deploy</li>
-				<li>Markdown-driven posts</li>
-				<li>Independent brand and repo</li>
-			</ul>
-		</div>
 	</section>
 
 	<section class="posts-section" id="posts">
 		<div class="posts-heading">
-			<p class="eyebrow">Posts</p>
-			<h2>Stable feature writeups.</h2>
+			<h2>Posts</h2>
 		</div>
 
 		<div class="post-grid">
@@ -56,7 +44,6 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 				<article class="post-card">
 					<div class="meta-row">
 						<span>{dateFormat.format(post.data.pubDate)}</span>
-						<span>{post.data.stability}</span>
 					</div>
 					<h3>
 						<a href={`/${post.slug}/`}>{post.data.title}</a>
