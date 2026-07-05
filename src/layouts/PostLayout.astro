@@ -1,12 +1,13 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import type { PostFrontmatter } from '../data/posts';
 
 interface Props {
 	title: string;
 	description: string;
 	pubDate: Date;
 	updatedDate?: Date;
-	stability: string;
+	stability: PostFrontmatter['stability'];
 	tags: string[];
 }
 
