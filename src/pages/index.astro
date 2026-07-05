@@ -16,41 +16,61 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 	title="Zeno"
 	description="Notes on systems, tools, and features that survived contact with reality."
 >
-	<section class="hero">
-		<div class="hero-panel">
-			<h1>Zeno</h1>
+	<section class="masthead">
+		<div class="masthead-copy">
+			<p class="kicker">Zeno</p>
+			<h1>Notes on systems, tools, and features.</h1>
 			<p class="lede">
-				Notes on systems, tools, and features that survived contact with reality.
+				Writing about the systems and tools that survived contact with reality.
 			</p>
-			<div class="hero-actions">
-				{featuredPost && (
-					<a class="primary-link" href={`/${featuredPost.slug}/`}>
-						Latest post
-					</a>
-				)}
-			</div>
 		</div>
 	</section>
 
-	<section class="posts-section" id="posts">
-		<div class="posts-heading">
+	{featuredPost && (
+		<section class="feature-section">
+			<div class="section-heading">
+				<h2>Latest</h2>
+			</div>
+			<article class="feature-card">
+				<div class="feature-meta">
+					<time datetime={featuredPost.data.pubDate.toISOString()}>
+						{dateFormat.format(featuredPost.data.pubDate)}
+					</time>
+				</div>
+				<h3>
+					<a href={`/${featuredPost.slug}/`}>{featuredPost.data.title}</a>
+				</h3>
+				<p class="feature-summary">{featuredPost.data.description}</p>
+				<div class="feature-footer">
+					<a class="primary-link" href={`/${featuredPost.slug}/`}>
+						Read article
+					</a>
+					<div class="tag-row">
+						{featuredPost.data.tags.map((tag) => (
+							<span class="tag-chip">{tag}</span>
+						))}
+					</div>
+				</div>
+			</article>
+		</section>
+	)}
+
+	<section class="archive-section" id="posts">
+		<div class="section-heading">
 			<h2>Archive</h2>
 		</div>
 
-		<div class="post-grid">
+		<div class="archive-list">
 			{posts.map((post) => (
-				<article class="post-card">
-					<div class="meta-row">
-						<span>{dateFormat.format(post.data.pubDate)}</span>
-					</div>
-					<h3>
-						<a href={`/${post.slug}/`}>{post.data.title}</a>
-					</h3>
-					<p>{post.data.description}</p>
-					<div class="tag-row">
-						{post.data.tags.map((tag) => (
-							<span class="tag-chip">{tag}</span>
-						))}
+				<article class="archive-row">
+					<time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+						{dateFormat.format(post.data.pubDate)}
+					</time>
+					<div class="archive-copy">
+						<h3>
+							<a href={`/${post.slug}/`}>{post.data.title}</a>
+						</h3>
+						<p>{post.data.description}</p>
 					</div>
 				</article>
 			))}

@@ -21,9 +21,10 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 <BaseLayout title={`${title} | Zeno`} description={description}>
 	<article class="post-shell">
 		<header class="post-hero">
+			<p class="kicker">Zeno</p>
 			<h1>{title}</h1>
 			<p class="lede">{description}</p>
-			<div class="meta-row">
+			<div class="post-meta">
 				<span>Published {dateFormat.format(pubDate)}</span>
 				{updatedDate && <span>Updated {dateFormat.format(updatedDate)}</span>}
 			</div>
@@ -34,12 +35,12 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 			</div>
 		</header>
 
-		<div class="post-body">
+		<div class="post-body prose">
 			<slot />
 		</div>
 
 		<p class="back-link">
-			<a href="/">Back to all posts</a>
+			<a href="/">Back to archive</a>
 		</p>
 	</article>
 </BaseLayout>
