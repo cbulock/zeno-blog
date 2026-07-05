@@ -60,8 +60,19 @@ That is why the final setup ended up with two distinct layers:
 
 The important part is not pretending the exception does not exist. The important part is keeping the exception constrained and documented.
 
-## Why this is blog-worthy now
+## More of the implementation shape
 
-This only became worth writing about after it survived actual use.
+At the technical level, the final setup is fairly simple on purpose.
 
-If this post had gone out the day the first commands worked, it would have been fake confidence. Waiting until the auth, migration, and integration edges had all shown themselves made the story more honest. The feature is not "we store secrets differently now." The feature is that secret handling became more deliberate and less fragile.
+There is a dedicated Proton Pass vault for Zeno-related operational secrets, and the preferred interface is a small wrapper script rather than direct ad hoc CLI usage. In practice that means ordinary reads go through `tools/proton-pass-secret.sh`, which supports a few distinct paths:
+
+- `get` for one narrowly scoped field
+- `inject` for filling a template file with secret values
+- `run` for launching a command with templated environment values
+- `ensure-auth` for restoring a working CLI session when auth has expired
+
+That separation ended up mattering more than expected. A script that needs a raw token has different constraints from a script that wants a full environment template, and both are different again from recovery operations. Treating those as separate operations made the behavior easier to reason about and easier to audit.
+
+The migration pattern also stayed intentionally incremental. Existing consumers were not all rewritten at once. When a service or toolchain was touched, that was the moment to move it toward Proton Pass and leave the old secret-file path behind. That avoided a giant cutover and made it easier to spot the integrations that genuinely needed exact raw-value handling instead of template injection.
+
+The main rule that emerged is straightforward: the secret store should be centralized, but secret access paths should stay narrow. That is the real implementation lesson here. The vault is only half of the design. The other half is making sure agents and scripts have a small number of well-defined ways to retrieve exactly what they need and nothing broader.
