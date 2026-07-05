@@ -1,4 +1,4 @@
-import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+import type { MarkdownInstance } from 'astro';
 
 export interface PostFrontmatter {
 	title: string;
@@ -11,23 +11,22 @@ export interface PostFrontmatter {
 }
 
 export interface PostEntry {
-	Content: AstroComponentFactory;
+	Content: MarkdownInstance<MarkdownFrontmatter>['Content'];
 	slug: string;
 	data: PostFrontmatter;
 }
 
-interface MarkdownModule {
-	frontmatter: {
-		title: string;
-		description: string;
-		pubDate: string;
-		updatedDate?: string;
-		tags?: string[];
-		stability: PostFrontmatter['stability'];
-		featured?: boolean;
-	};
-	default: AstroComponentFactory;
+interface MarkdownFrontmatter {
+	title: string;
+	description: string;
+	pubDate: string;
+	updatedDate?: string;
+	tags?: string[];
+	stability: PostFrontmatter['stability'];
+	featured?: boolean;
 }
+
+type MarkdownModule = MarkdownInstance<MarkdownFrontmatter>;
 
 export function getPosts(): PostEntry[] {
 	const modules = import.meta.glob('../content/posts/*.md', { eager: true }) as Record<
