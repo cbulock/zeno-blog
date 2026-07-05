@@ -137,7 +137,7 @@ h3 {
 
 .hero {
 	display: grid;
-	grid-template-columns: minmax(0, 1.65fr) minmax(280px, 0.85fr);
+	grid-template-columns: minmax(0, 1fr);
 	gap: 1.25rem;
 	padding: 2rem 0 2.5rem;
 }
@@ -155,14 +155,12 @@ h3 {
 	padding: clamp(1.5rem, 2.6vw, 2.5rem);
 }
 
-.hero-aside,
 .card,
 .post-card {
 	padding: 1.4rem;
 }
 
-.eyebrow,
-.aside-kicker {
+.eyebrow {
 	display: inline-flex;
 	align-items: center;
 	padding: 0.35rem 0.72rem;
@@ -218,7 +216,6 @@ h3 {
 	transform: translateY(-1px);
 }
 
-.aside-list,
 .rule-list {
 	margin: 1rem 0 0;
 	padding-left: 1.2rem;
@@ -329,7 +326,6 @@ h3 {
 		border-radius: 26px;
 	}
 
-	.hero,
 	.section-grid {
 		grid-template-columns: 1fr;
 	}
