@@ -1,0 +1,25 @@
+---
+import { getPosts } from '../data/posts';
+import PostLayout from '../layouts/PostLayout.astro';
+
+export function getStaticPaths() {
+	return getPosts().map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const Content = post.Content;
+---
+
+<PostLayout
+	title={post.data.title}
+	description={post.data.description}
+	pubDate={post.data.pubDate}
+	updatedDate={post.data.updatedDate}
+	stability={post.data.stability}
+	tags={post.data.tags}
+>
+	<Content />
+</PostLayout>

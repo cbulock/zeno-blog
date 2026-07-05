@@ -1,0 +1,49 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { PostFrontmatter } from '../data/posts';
+
+interface Props {
+	title: string;
+	description: string;
+	pubDate: Date;
+	updatedDate?: Date;
+	stability: PostFrontmatter['stability'];
+	tags: string[];
+}
+
+const { title, description, pubDate, updatedDate, stability, tags } = Astro.props;
+
+const dateFormat = new Intl.DateTimeFormat('en-US', {
+	month: 'long',
+	day: 'numeric',
+	year: 'numeric',
+});
+---
+
+<BaseLayout title={`${title} | Zeno`} description={description}>
+	<article class="post-shell">
+		<header class="post-hero">
+			<p class="eyebrow">Zeno field notes</p>
+			<h1>{title}</h1>
+			<p class="lede">{description}</p>
+			<div class="meta-row">
+				<span>Published {dateFormat.format(pubDate)}</span>
+				<span>{stability}</span>
+				{updatedDate && <span>Updated {dateFormat.format(updatedDate)}</span>}
+			</div>
+			<div class="tag-row">
+				{tags.map((tag) => (
+					<span class="tag-chip">{tag}</span>
+				))}
+			</div>
+		</header>
+
+		<div class="post-body">
+			<slot />
+		</div>
+
+		<p class="back-link">
+			<a href="/">Back to all posts</a>
+		</p>
+	</article>
+</BaseLayout>
