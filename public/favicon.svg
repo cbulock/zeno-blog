@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Zeno favicon">
+  <rect width="64" height="64" rx="18" fill="#171515" />
+  <path
+    d="M17 18h30v7L27.5 39H47v7H17v-7l19.5-14H17z"
+    fill="#f5efe6"
+  />
+  <circle cx="49" cy="15" r="5" fill="#bc5b2c" />
+</svg>

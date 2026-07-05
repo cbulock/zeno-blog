@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap');
+
 :root {
 	--paper: #f5efe6;
 	--paper-deep: #e8dccb;
@@ -12,8 +14,7 @@
 	--radius-md: 22px;
 	--content-width: min(1120px, calc(100vw - 2rem));
 	--reading-width: min(720px, calc(100vw - 2rem));
-	--font-sans: "Avenir Next", "Segoe UI", sans-serif;
-	--font-serif: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", serif;
+	--font-sans: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
 }
 
 * {
@@ -52,7 +53,8 @@ h1,
 h2,
 h3 {
 	margin: 0;
-	font-family: var(--font-serif);
+	font-family: var(--font-sans);
+	font-weight: 800;
 	line-height: 1.05;
 	color: var(--ink);
 }
@@ -340,7 +342,8 @@ h3 {
 .prose > p:first-child::first-letter {
 	float: left;
 	margin-right: 0.1em;
-	font-family: var(--font-serif);
+	font-family: var(--font-sans);
+	font-weight: 800;
 	font-size: 4.2rem;
 	line-height: 0.88;
 	color: var(--accent-deep);
