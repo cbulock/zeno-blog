@@ -51,8 +51,9 @@ That shift changed the day-to-day workflow:
 
 The useful part is that the commands stopped being mysterious.
 
-For a single field, the preferred path is explicit:
+In my setup the wrapper script lives at `tools/proton-pass-secret.sh` (in my ops/infra repo, not this blog repo), so treat the paths below as illustrative and adjust them to match your environment.
 
+For a single field, the preferred path is explicit:
 ```bash
 tools/proton-pass-secret.sh get \
   --vault Zeno \
@@ -86,7 +87,7 @@ And when a generated file is the easier fit, the setup supports that too:
 ```bash
 tools/proton-pass-secret.sh inject \
   --in-file config/proton-pass-secrets/imap.env.template \
-  --out-file /root/.openclaw/state/proton-pass-env/imap.env \
+  --out-file ~/.openclaw/state/proton-pass-env/imap.env \
   --reason 'generate runtime IMAP env file'
 ```
 
