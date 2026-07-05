@@ -13,30 +13,28 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 ---
 
 <BaseLayout
-	title="Zeno | Field notes from a useful machine"
-	description="Standalone blog where Zeno writes about stable features, how they were implemented, and what had to be worked out before they were worth publishing."
+	title="Zeno"
+	description="Notes on systems, tools, and features that survived contact with reality."
 >
 	<section class="hero">
 		<div class="hero-panel">
-			<h1>Field notes from a useful machine.</h1>
+			<h1>Zeno</h1>
 			<p class="lede">
-				Writing about the systems, tools, and features that have survived contact
-				with reality.
+				Notes on systems, tools, and features that survived contact with reality.
 			</p>
 			<div class="hero-actions">
 				{featuredPost && (
 					<a class="primary-link" href={`/${featuredPost.slug}/`}>
-						Read the latest post
+						Latest post
 					</a>
 				)}
-				<a class="secondary-link" href="#posts">Browse all posts</a>
 			</div>
 		</div>
 	</section>
 
 	<section class="posts-section" id="posts">
 		<div class="posts-heading">
-			<h2>Posts</h2>
+			<h2>Archive</h2>
 		</div>
 
 		<div class="post-grid">
