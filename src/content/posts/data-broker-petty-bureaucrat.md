@@ -1,6 +1,6 @@
 ---
 title: "I Built a Petty Bureaucrat for My Data Broker Cleanup"
-description: "How I modeled data broker removal as a stateful workflow with case tracking, inbox processing, scheduled rechecks, and hard approval boundaries."
+description: "How I modeled data broker removal as a stateful workflow with case tracking, inbox processing, anti-bot experiments, scheduled rechecks, and hard approval boundaries."
 pubDate: 2026-07-09
 tags:
   - Privacy
@@ -49,6 +49,32 @@ A lot of broker removals do not end at form submission. They continue in email. 
 
 That turns out to be a big deal, because without it, the workflow breaks across channels. You submit a request in one place, get a response somewhere else, and then forget to connect the two. The agent is useful partly because it is willing to do that boring connective tissue work every time.
 
+## The ugly technical layer
+
+The workflow layer was only half the project.
+
+The other half was the browser and anti-bot experimentation layer that tried to make some of these broker flows automatable in the first place. That is where things got much messier and much more interesting.
+
+Some brokers were straightforward enough that the main challenge was keeping state straight. Others sat behind a stack of anti-bot checks that made even reaching the real form annoying. In those cases, the job stopped being "submit the opt-out" and turned into "figure out what the live flow actually is."
+
+That is where tools like FlareSolverr and CapSolver came in.
+
+FlareSolverr was useful mostly as a session bootstrapper, not as a magic bypass. In some cases it was enough to get through Cloudflare or at least load the actual app shell so I could inspect the live removal flow, required fields, hidden inputs, and API endpoints. That was valuable because many of these broker pages look simple until you realize the visible page is just a wrapper around a more stateful client-side process.
+
+CapSolver was even more mixed. Sometimes it was good enough to produce valid-looking tokens for challenges like Turnstile or reCAPTCHA Enterprise and let me get one step deeper into a flow. But getting a token was not the same thing as getting a trustworthy submission path. Several brokers still rejected the final request even when the challenge token looked right, which strongly suggests the anti-bot decision depended on more than the token itself: session continuity, user-agent consistency, cookies, timing, proxy reputation, or browser fingerprinting.
+
+That turned out to be one of the most useful technical lessons in the project. CAPTCHA solving is not "the hard part solved." It is one input into a much larger anti-automation decision.
+
+## Preserve partial progress
+
+That is also why I needed a real `technical_blocked` state instead of a generic failure bucket.
+
+If the system learns that a broker's public page is reachable but the final form submission still returns a CAPTCHA error, that is not the same as learning nothing. If it learns that Turnstile gets you through search but the final verification step switches to hCaptcha, that is not the same as a dead end. If it can discover the real first-step API endpoint but the broker refuses to send the confirmation voucher, that is still operationally useful knowledge.
+
+In other words, partial technical progress is still state.
+
+Knowing that a flow is reachable, that a particular challenge type is in play, that the required fields are known, or that a submission fails only at the last step is exactly the kind of thing a workflow system should remember. That information tells you whether a case needs a better browser strategy, a human approval step, a different automation path, or should simply stay marked as technically blocked for now.
+
 ## Add a recheck loop
 
 Then there is the recheck loop.
@@ -77,11 +103,11 @@ The detailed records stay private. The public layer is deliberately less informa
 
 ## What the agent is actually good at
 
-That architecture is not flashy. It is basically a state machine, an inbox processor, a scheduler, and a set of hard approval gates.
+That architecture is not flashy. It is basically a state machine, an inbox processor, a scheduler, a browser experimentation layer, and a set of hard approval gates.
 
 But that is also why it works.
 
-The useful part of an agent here is not that it can click through forms. The useful part is that it can be a patient little bureaucrat. It keeps records straight. It notices when something needs follow-up. It does not get bored of rechecking statuses. It does not forget which cases are waiting on confirmation and which ones are waiting on me.
+The useful part of an agent here is not that it can click through forms. The useful part is that it can be a patient little bureaucrat that is also willing to do technical reconnaissance. It keeps records straight. It notices when something needs follow-up. It does not get bored of rechecking statuses. It does not forget which cases are waiting on confirmation and which ones are waiting on me. And when a broker flow gets weird, it can preserve the exact shape of the weirdness instead of collapsing everything into "didn't work."
 
 That is a much less glamorous vision of AI than the usual autonomous-assistant pitch.
 
