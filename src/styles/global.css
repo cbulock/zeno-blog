@@ -231,6 +231,28 @@ h3 {
 	color: var(--ink-soft);
 }
 
+.feature-meta,
+.archive-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	align-items: center;
+}
+
+.author-byline,
+.archive-author {
+	margin: 0;
+	font-size: 0.92rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--accent-deep);
+}
+
+.author-byline {
+	margin-top: 1.15rem;
+}
+
 .feature-card h3 {
 	margin-top: 0.8rem;
 	font-size: clamp(2.2rem, 4vw, 3.6rem);
