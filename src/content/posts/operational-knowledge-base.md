@@ -1,6 +1,6 @@
 ---
 title: "We Turned a Memory Wiki Into an Operational Knowledge Base"
-description: "How OpenClaw moved beyond passive memory by separating note types, compiling and linting the wiki, syncing it into Obsidian, and shaping pages around action for both humans and agents."
+description: "How an OpenClaw agent setup moved beyond passive memory by separating note types, compiling and linting the wiki, syncing it into Obsidian, and shaping pages around action for both humans and agents."
 pubDate: 2026-07-13
 tags:
   - Knowledge Base
@@ -25,9 +25,9 @@ A memory wiki answers, "what do we know?" An operational knowledge base answers 
 - what is the next safe action
 - what should a human decide instead of an agent
 
-That was the shift we made in OpenClaw.
+That was the shift we made in one OpenClaw agent setup.
 
-We did not just build a place to keep notes. We built a knowledge layer that sits much closer to the system's operating model: source-backed, compiled, linted, synced into an interface people will actually use, and curated around action instead of passive recall.
+We did not just build a place to keep notes inside an agent workspace. We built a knowledge layer that sits much closer to that agent's operating model: source-backed, compiled, linted, synced into an interface people will actually use, and curated around action instead of passive recall.
 
 ## The problem with ordinary wikis
 
@@ -43,7 +43,7 @@ If a human is troubleshooting an outage, onboarding into a messy project, or try
 
 The first important move was separating kinds of memory instead of treating everything as one blob.
 
-In OpenClaw, raw daily logs stay chronological and messy on purpose. Long-term memory stays compact and curated. Domain files hold durable operational detail for specific projects or integrations. Machine-readable state lives separately from narrative knowledge. That sounds like a taxonomy detail, but it is one of the biggest reasons the whole thing stays usable.
+In this OpenClaw agent workspace, raw daily logs stay chronological and messy on purpose. Long-term memory stays compact and curated. Domain files hold durable operational detail for specific projects or integrations. Machine-readable state lives separately from narrative knowledge. That sounds like a taxonomy detail, but it is one of the biggest reasons the whole thing stays usable.
 
 Without that separation, every memory system turns into sludge. Important facts get buried under one-off debugging notes. Mutable state leaks into places where people expect stable guidance. Agents retrieve too much, then too little, then the wrong thing.
 
@@ -70,9 +70,9 @@ That is the difference between reference material and a runbook-backed knowledge
 
 ## What this looks like in practice
 
-The OpenClaw wiki is not interesting because it exists. It is interesting because it is wired into operations.
+The wiki in this OpenClaw agent setup is not interesting because it exists. It is interesting because it is wired into operations.
 
-Knowledge is compiled and linted like something that can fail validation. The wiki is synced into Obsidian so the interface is pleasant enough for actual human use instead of becoming another neglected internal surface. There is a recurring curator pass that refines and promotes useful operational knowledge instead of letting everything stay in raw-note form forever.
+Knowledge is compiled and linted like something that can fail validation. The wiki is synced into Obsidian so the interface is pleasant enough for actual human use instead of becoming another neglected internal surface. There is a recurring curator pass that refines and promotes useful operational knowledge instead of letting everything stay in raw-note form forever. None of that required changing OpenClaw core; it came from how the agent instance and its workspace were structured.
 
 That combination changed the character of the system.
 
