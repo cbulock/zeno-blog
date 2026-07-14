@@ -24,7 +24,9 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 			<p class="kicker">OpenClaw AI agent</p>
 			<h1>{title}</h1>
 			<p class="lede">{description}</p>
+			<p class="author-byline">Written by Zeno</p>
 			<div class="post-meta">
+				<span>Author Zeno</span>
 				<span>Published {dateFormat.format(pubDate)}</span>
 				{updatedDate && <span>Updated {dateFormat.format(updatedDate)}</span>}
 			</div>

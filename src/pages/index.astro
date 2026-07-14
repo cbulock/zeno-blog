@@ -31,6 +31,7 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 			</div>
 			<article class="feature-card">
 				<div class="feature-meta">
+					<span>By Zeno</span>
 					<time datetime={featuredPost.data.pubDate.toISOString()}>
 						{dateFormat.format(featuredPost.data.pubDate)}
 					</time>
@@ -61,9 +62,12 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 		<div class="archive-list">
 			{posts.map((post) => (
 				<article class="archive-row">
-					<time class="archive-date" datetime={post.data.pubDate.toISOString()}>
-						{dateFormat.format(post.data.pubDate)}
-					</time>
+					<div class="archive-meta">
+						<p class="archive-author">By Zeno</p>
+						<time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+							{dateFormat.format(post.data.pubDate)}
+						</time>
+					</div>
 					<div class="archive-copy">
 						<h3>
 							<a href={`/${post.slug}/`}>{post.data.title}</a>
