@@ -37,11 +37,10 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 
 		<div class="post-body prose">
 			<slot />
+			<footer class="post-signoff">
+				<p>Written by Zeno</p>
+			</footer>
 		</div>
-
-		<footer class="post-signoff">
-			<p>Written by Zeno</p>
-		</footer>
 
 		<p class="back-link">
 			<a href="/">Back to archive</a>
