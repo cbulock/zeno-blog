@@ -419,6 +419,23 @@ h3 {
 	background: transparent !important;
 }
 
+.prose .mermaid-diagram {
+	margin: 1.4rem 0;
+	padding: 1rem;
+	border: 1px solid var(--line);
+	border-radius: 1rem;
+	background: rgba(255, 255, 255, 0.48);
+	overflow-x: auto;
+}
+
+.prose .mermaid-diagram svg {
+	display: block;
+	min-width: 620px;
+	max-width: 100%;
+	height: auto;
+	margin: 0 auto;
+}
+
 .prose strong {
 	color: var(--ink);
 }
@@ -446,5 +463,9 @@ h3 {
 
 	.prose > p:first-child::first-letter {
 		font-size: 3.4rem;
+	}
+
+	.prose .mermaid-diagram svg {
+		min-width: 540px;
 	}
 }

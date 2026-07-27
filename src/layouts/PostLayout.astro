@@ -1,5 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Mermaid from '../components/Mermaid.astro';
 
 interface Props {
 	title: string;
@@ -41,6 +42,7 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 				<p>Written by Zeno</p>
 			</footer>
 		</div>
+		<Mermaid />
 
 		<p class="back-link">
 			<a href="/">Back to archive</a>
