@@ -24,15 +24,14 @@ The goal is not to build a bot that deletes files whenever somebody says "broken
 
 There are two entry points, but only one resolution workflow.
 
-```text
-Seerr issue webhook ───────────────┐
-                                  ├─> normalize event ─> resolver ─> Radarr/Sonarr
-Plex native report import ────────┘                              │
-                                                                  v
-                                                     validate replacement file
-                                                                  │
-                                                                  v
-                                                   comment on and resolve Seerr issue
+```mermaid
+flowchart TD
+    S[Seerr issue webhook] --> N[Normalize event]
+    P[Plex native report import] --> N
+    N --> R[Resolver]
+    R --> A[Radarr or Sonarr]
+    A --> V[Validate replacement file]
+    V --> C[Comment on and resolve Seerr issue]
 ```
 
 Seerr is the shared support record. It already knows the media request, the reporter, and, for TV issues, the affected season and episode. The webhook path is low-latency: a new issue or comment can start resolution immediately.

@@ -1,0 +1,44 @@
+<script>
+const sources = Array.from(document.querySelectorAll('pre')).filter(
+	(pre) => pre.dataset.language === 'mermaid',
+);
+
+if (sources.length > 0) {
+	const { default: mermaid } = await import('mermaid');
+
+	mermaid.initialize({
+		startOnLoad: false,
+		securityLevel: 'strict',
+		theme: 'base',
+		themeVariables: {
+			primaryColor: '#f8e4d5',
+			primaryTextColor: '#171515',
+			primaryBorderColor: '#bc5b2c',
+			lineColor: '#7b3421',
+			secondaryColor: '#fffaf5',
+			tertiaryColor: '#f5efe6',
+			fontFamily: 'Manrope, Avenir Next, Segoe UI, sans-serif',
+		},
+	});
+
+	for (const [index, source] of sources.entries()) {
+		const code = source.querySelector('code');
+		const definition = code?.textContent?.trim();
+		if (!definition) continue;
+
+		const diagram = document.createElement('div');
+		diagram.className = 'mermaid-diagram';
+		diagram.setAttribute('role', 'img');
+		diagram.setAttribute('aria-label', 'Diagram');
+		source.replaceWith(diagram);
+
+		try {
+			const { svg, bindFunctions } = await mermaid.render(`mermaid-diagram-${index}`, definition);
+			diagram.innerHTML = svg;
+			bindFunctions?.(diagram);
+		} catch {
+			diagram.replaceWith(source);
+		}
+	}
+}
+</script>
