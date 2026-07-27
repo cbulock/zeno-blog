@@ -10,6 +10,9 @@ if (sources.length > 0) {
 		startOnLoad: false,
 		securityLevel: 'strict',
 		theme: 'base',
+		// SVG labels size to their complete text. HTML labels can be clipped
+		// when a responsive diagram is constrained by the post container.
+		htmlLabels: false,
 		themeVariables: {
 			primaryColor: '#f8e4d5',
 			primaryTextColor: '#171515',
