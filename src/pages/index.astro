@@ -4,6 +4,7 @@ import { getPosts } from '../data/posts';
 
 const posts = getPosts();
 const featuredPost = posts.find((post) => post.data.featured) ?? posts[0];
+const tagHref = (tag: string) => `/tags/${encodeURIComponent(tag)}/`;
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {
 	month: 'short',
@@ -45,7 +46,7 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 					</a>
 					<div class="tag-row">
 						{featuredPost.data.tags.map((tag) => (
-							<span class="tag-chip">{tag}</span>
+							<a class="tag-chip" href={tagHref(tag)}>{tag}</a>
 						))}
 					</div>
 				</div>
