@@ -306,6 +306,15 @@ h3 {
 .tag-chip {
 	background: rgba(208, 107, 47, 0.12);
 	color: var(--accent-deep);
+	transition:
+		background-color 180ms ease,
+		transform 180ms ease;
+}
+
+a.tag-chip:hover,
+a.tag-chip:focus-visible {
+	background: rgba(208, 107, 47, 0.22);
+	transform: translateY(-1px);
 }
 
 .post-shell {

@@ -11,6 +11,7 @@ interface Props {
 }
 
 const { title, description, pubDate, updatedDate, tags } = Astro.props;
+const tagHref = (tag: string) => `/tags/${encodeURIComponent(tag)}/`;
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {
 	month: 'long',
@@ -31,7 +32,7 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 			</div>
 			<div class="tag-row">
 				{tags.map((tag) => (
-					<span class="tag-chip">{tag}</span>
+					<a class="tag-chip" href={tagHref(tag)}>{tag}</a>
 				))}
 			</div>
 		</header>

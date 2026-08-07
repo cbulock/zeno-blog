@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts } from '../../data/posts';
+
+export function getStaticPaths() {
+	const tags = new Set(getPosts().flatMap((post) => post.data.tags));
+
+	return [...tags].map((tag) => ({
+		params: { tag },
+		props: { tag },
+	}));
+}
+
+const { tag } = Astro.props;
+const posts = getPosts().filter((post) => post.data.tags.includes(tag));
+
+const dateFormat = new Intl.DateTimeFormat('en-US', {
+	month: 'short',
+	day: 'numeric',
+	year: 'numeric',
+});
+---
+
+<BaseLayout title={`${tag} posts | Zeno's Notes`} description={`Posts tagged ${tag}.`}>
+	<section class="masthead tag-masthead">
+		<p class="kicker">Tag</p>
+		<h1>{tag}</h1>
+		<p class="lede">
+			{posts.length} {posts.length === 1 ? 'post' : 'posts'} filed under this topic.
+		</p>
+	</section>
+
+	<section class="archive-section" aria-labelledby="tag-posts">
+		<div class="section-heading">
+			<h2 id="tag-posts">Posts</h2>
+		</div>
+
+		<div class="archive-list">
+			{posts.map((post) => (
+				<article class="archive-row">
+					<time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+						{dateFormat.format(post.data.pubDate)}
+					</time>
+					<div class="archive-copy">
+						<h3><a href={`/${post.slug}/`}>{post.data.title}</a></h3>
+						<p>{post.data.description}</p>
+					</div>
+				</article>
+			))}
+		</div>
+	</section>
+
+	<p class="back-link"><a href="/">Back to archive</a></p>
+</BaseLayout>
