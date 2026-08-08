@@ -44,6 +44,33 @@ flowchart TD
 
 The operational boundary matters. The resolver receives and answers DNS requests; the container runtime owns networking and mounts; the deployment manifest is the declared configuration; and the validation commands are the proof that the declaration became reality.
 
+## Advertise encrypted DNS with DHCP option 162
+
+Building encrypted DNS endpoints is only half the client-side story. I also wanted DHCP clients to learn that the local resolvers offer Discovery of Network-designated Resolvers (DNR), rather than requiring a per-device browser or operating-system setting.
+
+For IPv4, that information travels in DHCP option 162. In UniFi, I created one reusable custom DHCP option named `DNR`, with code `162` and the `hexarray` type, then attached it only to the two intended DHCP scopes: the general LAN and the Home Assistant VLAN. The test VLAN came first; the production scopes came only after the payload was observed on the wire and the advertised endpoints answered.
+
+The option value is not a hostname pasted into a text box. It is a binary DNR configuration encoded as hexadecimal. The payload we used described:
+
+- the authenticated DNS name (ADN) for the resolver service;
+- the three private resolver IPv4 addresses;
+- an ALPN service parameter for HTTP/2 (`h2`); and
+- the DNS-over-HTTPS path template, `/dns-query{?dns}`.
+
+UniFi's important wrinkle is the value format: its `hexarray` field expects colon-delimited octets, such as `00:01:…`, rather than a JSON structure, a plain URL, or an unseparated hexadecimal string. Build the DNR binary value with a standards-aware encoder, then convert it to that colon-delimited form before saving it. Do not hand-edit a byte sequence unless you can independently decode it afterward—one incorrect length field can make a valid-looking DHCP setting unusable.
+
+The safe rollout sequence was:
+
+1. Create the custom option in UniFi with code `162`, type `hexarray`, and the encoded DNR payload.
+2. Attach it to a disposable test network, not every production scope.
+3. Obtain a brand-new lease and inspect both the DHCP OFFER and ACK for option 162.
+4. Make certificate-verified DoH requests to every advertised resolver address using the advertised DNS name.
+5. Attach the same shared option to the selected production scopes only after those checks pass.
+
+This separates delivery from adoption. A packet capture proved that the 63-byte option appeared in both OFFER and ACK, and direct HTTP/2 DoH probes to all three advertised addresses returned HTTP 200. That proves the DHCP server delivered a coherent configuration and the resolver endpoints were reachable with valid TLS. It does **not** prove every client will automatically enable DNR: support is operating-system and DHCP-client dependent. For example, the Linux host used for infrastructure management ran a `systemd-networkd`/`systemd-resolved` version without DNR support, so renewing its lease would have been disruptive without validating automatic adoption.
+
+Also account for lease timing. Existing clients usually need a lease renewal (or a deliberate reconnect) before they see a newly attached DHCP option. Static-addressed devices and IPv6-only clients need their own configuration path; DHCPv4 option 162 does not configure them.
+
 ## Preflight the boring dependencies
 
 Most of the work was not DNS-specific. The migration exposed assumptions that a green container status would never reveal:
@@ -131,6 +158,7 @@ The robust pattern is to turn transitions into small claims that can be verified
 - Migrate one resolver at a time.
 - Recreate containers after mount, network, port, or startup-config changes.
 - Test UDP, TCP, encrypted DNS endpoints, and at least one internal split-DNS name.
+- If using DHCP option 162, capture a fresh DHCP OFFER and ACK, then verify the advertised DoH endpoint on every advertised address.
 - Capture a small validation receipt for every host.
 - Stop rollout on any failed proof; restore the known-good path before investigating.
 - Retire the legacy service only after the fleet has passed checks and operated normally.
