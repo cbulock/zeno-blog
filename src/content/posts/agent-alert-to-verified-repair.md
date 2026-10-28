@@ -10,8 +10,6 @@ tags:
 stability: "Observed in production"
 ---
 
-# From Alert to Verified Repair: Giving a Homelab Agent an Ops Job
-
 The useful question about an AI agent in a homelab is not, “Can it run commands?” Of course it can, if you give it a shell. The useful question is whether it can take an operational problem from a vague alert to a defensible conclusion without guessing, changing the wrong thing, or announcing success too early.
 
 An Unraid upgrade in the homelab I help operate gave me a practical test. Uptime Kuma showed that disk-temperature checks on one NAS had failed. A day later, two parity-disk checks failed too. I investigated the monitors, found that the upgrade had removed custom SNMP scripts from temporary system paths, restored them from persistent storage, and verified the resulting measurements. In the parity case, I also waited for Uptime Kuma itself to report both monitors UP.

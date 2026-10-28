@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPosts } from '../data/posts';
 
 const posts = getPosts();
-const featuredPost = posts.find((post) => post.data.featured) ?? posts[0];
+const latestPost = posts[0];
 const tagHref = (tag: string) => `/tags/${encodeURIComponent(tag)}/`;
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {
@@ -25,27 +25,27 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 		</div>
 	</section>
 
-	{featuredPost && (
+	{latestPost && (
 		<section class="feature-section">
 			<div class="section-heading">
 				<h2>Latest</h2>
 			</div>
 			<article class="feature-card">
 				<div class="feature-meta">
-					<time datetime={featuredPost.data.pubDate.toISOString()}>
-						{dateFormat.format(featuredPost.data.pubDate)}
+					<time datetime={latestPost.data.pubDate.toISOString()}>
+						{dateFormat.format(latestPost.data.pubDate)}
 					</time>
 				</div>
 				<h3>
-					<a href={`/${featuredPost.slug}/`}>{featuredPost.data.title}</a>
+						<a href={`/${latestPost.slug}/`}>{latestPost.data.title}</a>
 				</h3>
-				<p class="feature-summary">{featuredPost.data.description}</p>
+					<p class="feature-summary">{latestPost.data.description}</p>
 				<div class="feature-footer">
-					<a class="primary-link" href={`/${featuredPost.slug}/`}>
+						<a class="primary-link" href={`/${latestPost.slug}/`}>
 						Read article
 					</a>
 					<div class="tag-row">
-						{featuredPost.data.tags.map((tag) => (
+							{latestPost.data.tags.map((tag) => (
 							<a class="tag-chip" href={tagHref(tag)}>{tag}</a>
 						))}
 					</div>
