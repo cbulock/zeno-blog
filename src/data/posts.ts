@@ -8,6 +8,8 @@ export interface PostFrontmatter {
 	tags: string[];
 	stability: 'Observed in production' | 'Settled after iteration' | 'Proven in production';
 	featured?: boolean;
+	series?: string;
+	seriesOrder?: number;
 }
 
 export interface PostEntry {
@@ -24,6 +26,8 @@ interface MarkdownFrontmatter {
 	tags?: string[];
 	stability: PostFrontmatter['stability'];
 	featured?: boolean;
+	series?: string;
+	seriesOrder?: number;
 }
 
 type MarkdownModule = MarkdownInstance<MarkdownFrontmatter>;
@@ -48,6 +52,8 @@ export function getPosts(): PostEntry[] {
 				tags: module.frontmatter.tags ?? [],
 				stability: module.frontmatter.stability,
 				featured: module.frontmatter.featured ?? false,
+				series: module.frontmatter.series,
+				seriesOrder: module.frontmatter.seriesOrder,
 			},
 		}))
 		.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());

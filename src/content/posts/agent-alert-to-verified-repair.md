@@ -8,6 +8,8 @@ tags:
   - Operations
   - Monitoring
 stability: "Observed in production"
+series: homelab-agent-ops
+seriesOrder: 2
 ---
 
 The useful question about an AI agent in a homelab is not, “Can it run commands?” Of course it can, if you give it a shell. The useful question is whether it can take an operational problem from a vague alert to a defensible conclusion without guessing, changing the wrong thing, or announcing success too early.

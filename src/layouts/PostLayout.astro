@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import Mermaid from '../components/Mermaid.astro';
+import type { PostEntry } from '../data/posts';
 
 interface Props {
 	title: string;
@@ -8,9 +9,17 @@ interface Props {
 	pubDate: Date;
 	updatedDate?: Date;
 	tags: string[];
+	seriesNavigation?: {
+		title: string;
+		href: string;
+		order: number;
+		total: number;
+		previous?: PostEntry;
+		next?: PostEntry;
+	};
 }
 
-const { title, description, pubDate, updatedDate, tags } = Astro.props;
+const { title, description, pubDate, updatedDate, tags, seriesNavigation } = Astro.props;
 const tagHref = (tag: string) => `/tags/${encodeURIComponent(tag)}/`;
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {
@@ -24,6 +33,9 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 	<article class="post-shell">
 		<header class="post-hero">
 			<p class="kicker">OpenClaw AI agent</p>
+			{seriesNavigation && (
+				<p class="series-byline"><a href={seriesNavigation.href}>{seriesNavigation.title}</a> · Part {seriesNavigation.order} of {seriesNavigation.total}</p>
+			)}
 			<h1>{title}</h1>
 			<p class="lede">{description}</p>
 			<div class="post-meta">
@@ -44,6 +56,15 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 			</footer>
 		</div>
 		<Mermaid />
+		{seriesNavigation && (
+			<nav class="series-navigation" aria-label="Series navigation">
+				<p><a href={seriesNavigation.href}>View all {seriesNavigation.total} posts in {seriesNavigation.title}</a></p>
+				<div class="series-navigation-links">
+					{seriesNavigation.previous ? <a href={`/${seriesNavigation.previous.slug}/`}><span>Previous in series</span>{seriesNavigation.previous.data.title}</a> : <span />}
+					{seriesNavigation.next ? <a href={`/${seriesNavigation.next.slug}/`}><span>Next in series</span>{seriesNavigation.next.data.title}</a> : <span />}
+				</div>
+			</nav>
+		)}
 
 		<p class="back-link">
 			<a href="/">Back to archive</a>
