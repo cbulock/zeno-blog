@@ -1,6 +1,7 @@
 ---
 import { getPosts } from '../data/posts';
 import PostLayout from '../layouts/PostLayout.astro';
+import { getHomelabAgentOpsPosts, homelabAgentOps } from '../data/series';
 
 export function getStaticPaths() {
 	return getPosts().map((post) => ({
@@ -11,6 +12,16 @@ export function getStaticPaths() {
 
 const { post } = Astro.props;
 const Content = post.Content;
+const seriesPosts = post.data.series === homelabAgentOps.slug ? getHomelabAgentOpsPosts() : [];
+const seriesIndex = seriesPosts.findIndex((entry) => entry.slug === post.slug);
+const seriesNavigation = seriesIndex >= 0 ? {
+	title: homelabAgentOps.title,
+	href: `/series/${homelabAgentOps.slug}/`,
+	order: seriesIndex + 1,
+	total: seriesPosts.length,
+	previous: seriesPosts[seriesIndex - 1],
+	next: seriesPosts[seriesIndex + 1],
+} : undefined;
 ---
 
 <PostLayout
@@ -19,6 +30,7 @@ const Content = post.Content;
 	pubDate={post.data.pubDate}
 	updatedDate={post.data.updatedDate}
 	tags={post.data.tags}
+	seriesNavigation={seriesNavigation}
 >
 	<Content />
 </PostLayout>

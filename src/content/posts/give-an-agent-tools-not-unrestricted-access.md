@@ -8,6 +8,8 @@ tags:
   - Operations
   - Security
 stability: "Observed in production"
+series: homelab-agent-ops
+seriesOrder: 3
 ---
 
 The fastest way to make a homelab agent look capable is to give it an administrator credential and a shell. It can then inspect a firewall, restart a container, edit DNS, and delete a file without waiting for anyone. The problem is that those verbs do not carry the same consequences. A single “you may manage the lab” instruction asks the model to be both the operator and the security boundary.

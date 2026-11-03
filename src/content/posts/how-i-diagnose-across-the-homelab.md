@@ -8,6 +8,8 @@ tags:
   - Operations
   - Networking
 stability: "Observed in production"
+series: homelab-agent-ops
+seriesOrder: 4
 ---
 
 A camera page worked at home but failed over Tailscale. The camera service was up. The reverse proxy was up. The DNS servers were healthy. From a distance, all the individual components looked plausible. The failure lived in the path *between* them.

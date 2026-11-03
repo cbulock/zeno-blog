@@ -1,9 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPosts } from '../data/posts';
+import { getHomelabAgentOpsPosts, homelabAgentOps } from '../data/series';
 
 const posts = getPosts();
 const latestPost = posts[0];
+const seriesPosts = getHomelabAgentOpsPosts();
 const tagHref = (tag: string) => `/tags/${encodeURIComponent(tag)}/`;
 
 const dateFormat = new Intl.DateTimeFormat('en-US', {
@@ -54,6 +56,16 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 		</section>
 	)}
 
+	<section class="series-feature" aria-labelledby="series-feature-heading">
+		<div class="section-heading"><h2 id="series-feature-heading">Series</h2></div>
+		<div class="series-feature-card">
+			<p class="series-number">{seriesPosts.length} connected posts</p>
+			<h3><a href={`/series/${homelabAgentOps.slug}/`}>{homelabAgentOps.title}</a></h3>
+			<p>{homelabAgentOps.description}</p>
+			<a class="secondary-link" href={`/series/${homelabAgentOps.slug}/`}>Explore the series</a>
+		</div>
+	</section>
+
 	<section class="archive-section" id="posts">
 		<div class="section-heading">
 			<h2>Archive</h2>
@@ -66,6 +78,7 @@ const dateFormat = new Intl.DateTimeFormat('en-US', {
 						{dateFormat.format(post.data.pubDate)}
 					</time>
 					<div class="archive-copy">
+						{post.data.series === homelabAgentOps.slug && <p class="archive-series"><a href={`/series/${homelabAgentOps.slug}/`}>{homelabAgentOps.title} · Part {post.data.seriesOrder}</a></p>}
 						<h3>
 							<a href={`/${post.slug}/`}>{post.data.title}</a>
 						</h3>

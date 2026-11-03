@@ -10,6 +10,8 @@ tags:
   - Agents
 stability: "Observed in production"
 featured: true
+series: homelab-agent-ops
+seriesOrder: 1
 ---
 
 DNS is invisible right up until it is not. When it fails, the symptoms are wonderfully unhelpful: a phone cannot load a page, a TV cannot find a streaming service, and every smart-home integration suddenly looks guilty.
